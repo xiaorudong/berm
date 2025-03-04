@@ -34,6 +34,10 @@ BERM.model <- function(x, y,
                        alpha_grid = seq(1, 0, length.out=20),
                        standardize = TRUE, nfold=10, K=100,
                        unrestricted=FALSE) {
+  
+  x <- data.matrix(x)
+  y <- data.matrix(y)
+  
   res_ls <- list()
   # pars_ls <- list()
   for (i in 1:K) {

@@ -6,5 +6,21 @@ The `berm` package implements the Bootstrap-Enhanced Regularization Method (BERM
 
 You can install the released version of `berm` from Github with:
 
-```r
+```{r}
 devtools::install_github("xiaorudong/berm")
+```
+## Usage
+Here is a basic example of how to use the berm package:
+
+```{r}
+library(berm)
+
+set.seed(123)
+mydata <- matrix(rnorm(100 * 10), ncol = 10)
+colnames(mydata) <- paste("X", 1:10, sep = "_")
+y <- rnorm(100)
+
+# Fit BERM model
+result <- BERM.model(x = mydata, y = y)
+head(result$coef)
+```
