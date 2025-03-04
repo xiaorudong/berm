@@ -9,7 +9,7 @@ You can install the released version of `berm` from Github with:
 ```{r}
 devtools::install_github("xiaorudong/berm")
 ```
-## Usage
+## Example
 Here is a basic example of how to use the berm package:
 
 ```{r}
