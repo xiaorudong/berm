@@ -23,6 +23,6 @@ colnames(mydata) <- paste("X", 1:10, sep = "_")
 y <- rnorm(100)
 
 # Fit BERM model
-result <- BERM.model(x = mydata, y = y)
+result <- berm(x = mydata, y = y)
 head(result$coef)
 ```

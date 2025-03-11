@@ -29,7 +29,7 @@
 #' @importFrom stats quantile coef
 #' @importFrom magrittr %>%
 
-BERM.model <- function(x, y,
+berm <- function(x, y,
                        lambda_grid = 10^seq(2, -3, by = -.1),
                        alpha_grid = seq(1, 0, length.out=20),
                        standardize = TRUE, nfold=10, K=100,
