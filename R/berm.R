@@ -34,10 +34,10 @@ berm <- function(x, y,
                        alpha_grid = seq(1, 0, length.out=20),
                        standardize = TRUE, nfold=10, K=100,
                        unrestricted=FALSE) {
-  
+
   x <- data.matrix(x)
   y <- data.matrix(y)
-  
+
   res_ls <- list()
   # pars_ls <- list()
   for (i in 1:K) {
@@ -71,10 +71,12 @@ berm <- function(x, y,
                                          lambda_grid=lambda_grid, alpha_grid=alpha_grid,
                                          standardize = standardize, nfold=nfold,
                                          penalty.factor=penalty.factor)
-  return(list(step1res=res_df, step1select=ci_df,
-              step2pars = allresLasso$pars,
-              coef=allresLasso$coef, intercept=allresLasso$intercept,
-              finalmodel=allresLasso$finalmodel))
+  res_ls <- list(step1res=res_df, step1select=ci_df,
+       step2pars = allresLasso$pars,
+       coef=allresLasso$coef, intercept=allresLasso$intercept,
+       finalmodel=allresLasso$finalmodel)
+  class(res_ls) <- "berm"
+  return(res_ls)
 }
 
 
@@ -192,4 +194,58 @@ ElasticNet_weight.model <- function(x, y,
               cvmodels=model, finalmodel=model$finalModel))
 }
 
+#' Summary of BERM
+#'
+#' This function displays the final model coefficients from a berm model object,
+#' including the intercept and predictors' coefficients. It provides a quick overview
+#' of the model's parameters.
+#'
+#' @param object The `berm` model object containing at least `intercept` and `coef`
+#' components.
+#' @return The function prints the model coefficients.
+
+summary.berm <- function(object) {
+  # Display parameters from the final model
+  cat("\nFinal Model Coefficients:\n")
+  allres <- rbind(object$intercept, object$coef)
+  rownames(allres) <- NULL
+  allres$Predictor[1] <- "Intercept"
+  print(allres)
+  invisible(object)
+}
+
+
+#' Prediction with BERM
+#'
+#' Predicts new values using the model obtained from `berm`.
+#' This function computes the predictions.
+#'
+#' @param object The `berm` model object containing `finalmodel`, `coef`, and `intercept`.
+#' @param newdata A data frame or matrix containing new observations. Columns must
+#'        match those used in the model training.
+#' @return Returns a vector of predicted values based on `newdata`.
+
+predict.berm <- function(object, newdata) {
+  if (is.null(object$finalmodel) || is.null(object$coef)) {
+    stop("The final model or coefficients are not available.")
+  }
+
+  if (any(c("data.frame", "matrix") %in% class(newdata))) {
+    newdata <- data.matrix(newdata)
+  } else {
+    stop("New data must be a matrix or a data frame.")
+  }
+
+  # Check if newdata contains all the necessary predictors used in the model
+  required_predictors <- rownames(object$coef)
+  if (!all(required_predictors %in% colnames(newdata))) {
+    stop("New data does not contain all the predictors used in the model.")
+  }
+
+  # Subset and order coefficients according to the columns in newdata
+  model_coefs <- object$coef[match(colnames(newdata), rownames(object$coef)), "Value"]
+
+  predicted_values <- newdata %*% model_coefs + object$intercept
+  return(predicted_values)
+}
 
