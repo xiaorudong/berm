@@ -22,7 +22,13 @@ mydata <- matrix(rnorm(100 * 10), ncol = 10)
 colnames(mydata) <- paste("X", 1:10, sep = "_")
 y <- rnorm(100)
 
-# Fit BERM model
-result <- berm(x = mydata, y = y)
-head(result$coef)
+# Fit a BERM model
+res_berm <- berm(x = mydata, y = y)
+summary(res_berm)
+
+# Predict in a new dataset
+newdata <- matrix(rnorm(100 * 10), ncol = 10)
+colnames(newdata) <- paste("X", 1:10, sep = "_")
+predict_res <- predict(object = res_berm, newdata = newdata)
+head(predict_res)
 ```
