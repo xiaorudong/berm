@@ -12,7 +12,7 @@ if (!requireNamespace("devtools", quietly=TRUE))
 devtools::install_github("xiaorudong/berm")
 ```
 ## Example
-Here is a basic example of how to use the berm package:
+Here is a basic example of how to use the `berm` package:
 
 ```{r}
 library(berm)
