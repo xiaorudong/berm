@@ -7,9 +7,9 @@ The `berm` package implements the Bootstrap-Enhanced Regularization Method (BERM
 You can install the released version of `berm` from Github with:
 
 ```{r}
-if (!requireNamespace("devtools", quietly=TRUE))
-    install.packages("devtools")
-devtools::install_github("xiaorudong/berm")
+if (!requireNamespace("remotes", quietly = TRUE))
+    install.packages("remotes")
+remotes::install_github("xiaorudong/berm")
 ```
 ## Example
 Here is a basic example of how to use the `berm` package:
