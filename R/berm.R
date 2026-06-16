@@ -28,6 +28,7 @@
 #' @importFrom tibble column_to_rownames
 #' @importFrom stats quantile coef
 #' @importFrom magrittr %>%
+#' @export
 
 berm <- function(x, y,
                        lambda_grid = 10^seq(2, -3, by = -.1),
@@ -203,6 +204,7 @@ ElasticNet_weight.model <- function(x, y,
 #' @param object The `berm` model object containing at least `intercept` and `coef`
 #' components.
 #' @return The function prints the model coefficients.
+#' @export
 
 summary.berm <- function(object) {
   # Display parameters from the final model
@@ -224,6 +226,7 @@ summary.berm <- function(object) {
 #' @param newdata A data frame or matrix containing new observations. Columns must
 #'        match those used in the model training.
 #' @return Returns a vector of predicted values based on `newdata`.
+#' @export
 
 predict.berm <- function(object, newdata) {
   if (is.null(object$finalmodel) || is.null(object$coef)) {
