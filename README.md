@@ -46,7 +46,7 @@ This default help to reduce computation time while maintaining stable performanc
 
 ### Optional alpha tuning
 
-Users may set `unrestricted = TRUE` to perform cross-validation over the full `alpha_grid` during each bootstrap iteration. 
+Users may set `unrestricted = TRUE` to allow both `alpha` and `lambda` to be selected through cross-validation during each bootstrap iteration.
 
 ```r
 res_berm <- berm(x = mydata, y = y, unrestricted = TRUE)
