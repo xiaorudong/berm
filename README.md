@@ -37,24 +37,34 @@ head(predict_res)
 
 ## Tuning Parameters
 
-### Default Setting
+### Default setting
 
 By default, `unrestricted = FALSE`. Under this setting, `berm` is fixed at `alpha = 0.5` during the bootstrap variable selection step.
 
 This default help to reduce computation time while maintaining stable performance. 
 
 
-### Optional Alpha Tuning
+### Optional alpha tuning
 
-Users may set `unrestricted = TRUE` to perform cross-validation over the full `alpha_grid` during each bootstrap iteration.
+Users may set `unrestricted = TRUE` to perform cross-validation over the full `alpha_grid` during each bootstrap iteration. 
 
 ```r
 res_berm <- berm(x = mydata, y = y, unrestricted = TRUE)
 ```
 
-This option may be useful when strong prior knowledge suggests an extreme sparsity pattern or coefficient structure. Examples include situations where only a very small number of predictors are expected to be associated with the outcome, or where a large proportion of predictors are expected to have non-zero effects.
+This option is useful when strong prior knowledge suggests an extreme sparsity pattern or coefficient structure. Examples include situations where only a very small number of predictors are expected to be associated with the outcome, or where a large proportion of predictors are expected to have non-zero effects.
 
 Because tuning both `alpha` and `lambda` within every bootstrap iteration can substantially increase computation time, we recommend using the default setting (`unrestricted = FALSE`) unless additional flexibility is needed.
+
+
+When `unrestricted = TRUE`, BERM performs cross-validation over:
+
+```r
+alpha_grid = seq(1, 0, length.out = 20)
+lambda_grid = 10^seq(2, -3, by = -0.1)
+```
+Users may also provide custom `alpha_grid` and `lambda_grid` values based on their data characteristics or computational requirements.
+
 
 
 ## Reference
