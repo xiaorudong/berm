@@ -32,3 +32,35 @@ colnames(newdata) <- paste("X", 1:10, sep = "_")
 predict_res <- predict(object = res_berm, newdata = newdata)
 head(predict_res)
 ```
+
+
+
+## Tuning Parameters
+
+### Default Setting
+
+By default, `unrestricted = FALSE`. Under this setting, `berm` is fixed at `alpha = 0.5` during the bootstrap variable selection step.
+
+This default help to reduce computation time while maintaining stable performance. 
+
+
+### Optional Alpha Tuning
+
+Users may set `unrestricted = TRUE` to perform cross-validation over the full `alpha_grid` during each bootstrap iteration.
+
+```r
+res_berm <- berm(x = mydata, y = y, unrestricted = TRUE)
+```
+
+This option may be useful when strong prior knowledge suggests an extreme sparsity pattern or coefficient structure. Examples include situations where only a very small number of predictors are expected to be associated with the outcome, or where a large proportion of predictors are expected to have non-zero effects.
+
+Because tuning both `alpha` and `lambda` within every bootstrap iteration can substantially increase computation time, we recommend using the default setting (`unrestricted = FALSE`) unless additional flexibility is needed.
+
+
+## Reference
+
+For methodological details and simulation studies, please see:
+
+Dong X, Goyal A, Liang M, Brusko MA, Brusko TM, Bacher R. *Penalized Linear Models for Highly Correlated High-Dimensional Immunophenotyping Data*. arXiv. 2025.
+
+https://arxiv.org/abs/2504.07771
